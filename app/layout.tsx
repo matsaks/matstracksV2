@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { MainNav } from "@/components/ui/main-nav";
+import { MainNav } from "@/components/main-nav";
 import "mapbox-gl/dist/mapbox-gl.css";
 import Providers from "./providers";
 import { Toaster } from "@/components/ui/sonner";

@@ -3,6 +3,7 @@ import { ActivityType, IActivity } from "@/types/activity";
 import {
   addDoc,
   collection,
+  deleteDoc,
   getDocs,
   limit,
   or,
@@ -75,4 +76,42 @@ export const addActivities = async (activities: IActivity[]) => {
   activities.map((activity: IActivity) => {
     addDoc(collection(db, `activities`), { ...activity });
   });
+};
+
+export const deleteActivityFromDatabase = async (activityID: number) => {
+  console.log("Deleting activity with id: ", activityID);
+  const q = query(
+    activitiesCollection,
+    where("id", "==", parseInt(activityID.toString()))
+  );
+  const snapshot = await getDocs(q);
+
+  snapshot.docs.map((doc) => {
+    deleteDoc(doc.ref);
+  });
+};
+
+export const addSingleActivityToDatabase = async (
+  access_token: string,
+  activityID: number
+) => {
+  const res = await fetch(
+    `https://www.strava.com/api/v3/activities/${activityID}?access_token=${access_token}`
+  );
+  const data = await res.json();
+  const newActivity: IActivity = {
+    id: data.id,
+    name: data.name,
+    distance: data.distance,
+    movingTime: data.moving_time,
+    elevHigh: data.elev_high,
+    elevLow: data.elev_low,
+    endLatlng: data.end_latlng,
+    summaryPolyline: data.map.summary_polyline,
+    sportType: data.type,
+    startDate: data.start_date,
+    startLatlng: data.start_latlng,
+    totalElevGained: data.total_elevation_gain,
+  };
+  addDoc(collection(db, `activities`), { ...newActivity });
 };

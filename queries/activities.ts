@@ -1,5 +1,7 @@
 import {
   addActivities,
+  addSingleActivityToDatabase,
+  deleteActivityFromDatabase,
   getAcitivites,
   getNewestActivity,
 } from "@/firestore/activites";
@@ -23,9 +25,7 @@ export const useNewestActivity = () => {
 };
 
 export const syncronizeActivities = async () => {
-  console.log("noe skjer her også");
   const access_token = await getAccestoken();
-  console.log(access_token);
   const newestDateInDatabase = await getNewestActivity();
   let page = 1;
   const newActivities: ActivityType[] = [];
@@ -76,8 +76,15 @@ export const syncronizeActivities = async () => {
       page++;
     }
   }
-  console.log(newActivities);
   await addActivities(newActivities);
-  console.log(newActivities);
   return newActivities;
+};
+
+export const deleteActivity = async (id: number) => {
+  await deleteActivityFromDatabase(id);
+};
+
+export const addSingleActivity = async (id: number) => {
+  const access_token = await getAccestoken();
+  await addSingleActivityToDatabase(access_token, id);
 };
