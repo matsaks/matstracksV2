@@ -170,7 +170,6 @@ export default function Stats(props: IProps) {
           stat: averageSpeedNordic(props.activities) + " km/h",
         },
       ];
-      console.log(stats);
 
       return (
         <div>

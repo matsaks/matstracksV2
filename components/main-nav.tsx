@@ -2,10 +2,13 @@
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
-import { syncronizeActivities } from "@/queries/activities";
-import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
-import { toast } from "sonner";
+import React, { useState } from "react";
+import { NavigationMenuLink } from "./ui/navigation-menu";
+
+import ToolsMenu from "./toolsmenu";
+import DeleteDialog from "./deletedialog";
+import SyncronizationButton from "./syncronizationbutton";
+import AddSingleDialog from "./addsingledialog";
 
 // TODO fix isLoading
 
@@ -14,28 +17,6 @@ export function MainNav({
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   const [activePage, setActivePage] = useState(0);
-
-  const mutation = useMutation({
-    mutationFn: () => syncronizeActivities(),
-    onSuccess: (data) => {
-      if (data.length === 0) {
-        toast.info("No new activities added.");
-      } else {
-        toast.success(
-          `Syncronized. ${data.length} activities saved to the database: ${data
-            .map((activity) => activity.name)
-            .join(", ")}`
-        );
-      }
-    },
-    onError: () => {
-      toast.error("An error occurred while synchronizing activities.");
-    },
-  });
-
-  const handleSync = () => {
-    mutation.mutate();
-  };
 
   return (
     <nav
@@ -69,12 +50,7 @@ export function MainNav({
       >
         Skiing
       </NavItem>
-      <div
-        className="text-m font-medium text-muted-foreground transition-colors hover:text-primary cursor-pointer"
-        onClick={handleSync}
-      >
-        Synkroniser
-      </div>
+      <ToolsMenu />
     </nav>
   );
 }
@@ -106,3 +82,29 @@ function NavItem({
     </Link>
   );
 }
+
+// const ListItem = React.forwardRef<
+//   React.ElementRef<"a">,
+//   React.ComponentPropsWithoutRef<"a">
+// >(({ className, title, children, ...props }, ref) => {
+//   return (
+//     <li>
+//       <NavigationMenuLink asChild>
+//         <a
+//           ref={ref}
+//           className={cn(
+//             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+//             className
+//           )}
+//           {...props}
+//         >
+//           <div className="text-sm font-medium leading-none">{title}</div>
+//           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+//             {children}
+//           </p>
+//         </a>
+//       </NavigationMenuLink>
+//     </li>
+//   );
+// });
+// ListItem.displayName = "ListItem";
