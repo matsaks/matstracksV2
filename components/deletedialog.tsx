@@ -42,7 +42,9 @@ export default function DeleteDialog() {
 
   return (
     <Dialog>
-      <DialogTrigger>Delete</DialogTrigger>
+      <DialogTrigger className="text-m font-medium text-muted-foreground transition-colors hover:text-primary cursor-pointer">
+        Delete
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Delete activity</DialogTitle>
@@ -54,12 +56,14 @@ export default function DeleteDialog() {
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(handleSubmit)}>
               <Input
-                type="number"
+                type="tel"
                 fieldName="id"
                 label="Activity ID"
                 placeholder="Activity ID"
               />
-              <Button type="submit">Delete</Button>
+              <Button type="submit" className="mt-3">
+                Delete
+              </Button>
             </form>
           </FormProvider>
         </DialogHeader>

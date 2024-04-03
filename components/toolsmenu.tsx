@@ -13,31 +13,76 @@ import SyncronizationButton from "./syncronizationbutton";
 import React from "react";
 import DeleteDialog from "./deletedialog";
 import AddSingleDialog from "./addsingledialog";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import * as Dialog from "@radix-ui/react-dialog";
 
 export default function ToolsMenu() {
   return (
-    <NavigationMenu>
-      <NavigationMenuList>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger className="text-m font-medium text-muted-foreground transition-colors hover:text-primary">
+    // <NavigationMenu>
+    //   <NavigationMenuList>
+    //     <NavigationMenuItem>
+    //       <NavigationMenuTrigger className="text-m font-medium text-muted-foreground transition-colors hover:text-primary">
+    //         Tools
+    //       </NavigationMenuTrigger>
+    //       <NavigationMenuContent>
+    //         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+    //           <ListItem key="Sync" title="Sync">
+    //             <SyncronizationButton />
+    //           </ListItem>
+    //           <ListItem key="Delete" title="Delete">
+    //             <DeleteDialog />
+    //           </ListItem>
+    //           <ListItem key="Add" title="Add">
+    //             <AddSingleDialog />
+    //           </ListItem>
+    //         </ul>
+    //       </NavigationMenuContent>
+    //     </NavigationMenuItem>
+    //   </NavigationMenuList>
+    // </NavigationMenu>
+
+    // <DropdownMenu>
+    //   <DropdownMenuTrigger>Tools</DropdownMenuTrigger>
+    //   <DropdownMenuContent>
+    //     <DropdownMenuLabel>Sync</DropdownMenuLabel>
+    //     <DropdownMenuItem>
+    //       <SyncronizationButton />
+    //     </DropdownMenuItem>
+    //     <DropdownMenuLabel>Update</DropdownMenuLabel>
+    //     <DropdownMenuItem>
+    //       <DeleteDialog />
+    //     </DropdownMenuItem>
+    //     {/* <DropdownMenuItem>
+    //       <AddSingleDialog />
+    //     </DropdownMenuItem> */}
+    //   </DropdownMenuContent>
+    // </DropdownMenu>
+    <Dialog.Root>
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger>
+          {/* <button className="text-m font-medium text-muted-foreground transition-colors hover:text-primary">
             Tools
-          </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-              <ListItem key="Sync" title="Sync">
-                <SyncronizationButton />
-              </ListItem>
-              <ListItem key="Delete" title="Delete">
-                <DeleteDialog />
-              </ListItem>
-              <ListItem key="Add" title="Add">
-                <AddSingleDialog />
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
+          </button> */}
+          <div className="text-m font-medium text-muted-foreground transition-colors hover:text-primary">
+            Tools
+          </div>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content>
+          <DropdownMenu.Label>Sync</DropdownMenu.Label>
+          <DropdownMenu.Item>
+            <SyncronizationButton />
+          </DropdownMenu.Item>
+          <DropdownMenu.Label>Delete</DropdownMenu.Label>
+          <DropdownMenu.Item>
+            <DeleteDialog />
+          </DropdownMenu.Item>
+          <DropdownMenu.Label>Add</DropdownMenu.Label>
+          <DropdownMenu.Item>
+            <AddSingleDialog />
+          </DropdownMenu.Item>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+    </Dialog.Root>
   );
 }
 

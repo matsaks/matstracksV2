@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { Form, FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import {
   Dialog,
@@ -40,7 +40,9 @@ export default function AddSingleDialog() {
 
   return (
     <Dialog>
-      <DialogTrigger>Add</DialogTrigger>
+      <DialogTrigger className="text-m font-medium text-muted-foreground transition-colors hover:text-primary cursor-pointer">
+        Add
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add single activity</DialogTitle>
@@ -52,12 +54,14 @@ export default function AddSingleDialog() {
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(handleSubmit)}>
               <Input
-                type="number"
+                type="tel"
                 fieldName="id"
                 label="Activity ID"
                 placeholder="Activity ID"
               />
-              <Button type="submit">Add</Button>
+              <Button type="submit" className="mt-3">
+                Add
+              </Button>
             </form>
           </FormProvider>
         </DialogHeader>

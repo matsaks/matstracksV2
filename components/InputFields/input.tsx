@@ -1,5 +1,4 @@
 import { FieldValues, RegisterOptions, useFormContext } from "react-hook-form";
-import Label from "./label";
 
 type customErrorType = {
   type: string;
@@ -18,7 +17,6 @@ type InputProps = {
 const Input = ({
   type,
   fieldName,
-  label,
   placeholder,
   options,
   customError,
@@ -45,7 +43,7 @@ const Input = ({
         type={type}
         {...register(fieldName, options)}
         placeholder={placeholder}
-        className="p-2 rounded-lg w-full bg-slate-600"
+        className="p-2 rounded-lg w-full bg-slate-800"
         required
       />
       {errorObjects}

@@ -3,9 +3,7 @@ import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
-import { NavigationMenuLink } from "./ui/navigation-menu";
 
-import ToolsMenu from "./toolsmenu";
 import DeleteDialog from "./deletedialog";
 import SyncronizationButton from "./syncronizationbutton";
 import AddSingleDialog from "./addsingledialog";
@@ -21,36 +19,44 @@ export function MainNav({
   return (
     <nav
       className={cn(
-        "flex items-center space-x-6 lg:space-x-8 mt-2 mb-4 pl-2",
+        "flex items-center space-x-6 lg:space-x-8 mt-2 mb-4 px-2",
         className
       )}
       {...props}
     >
-      <NavItem
-        href={"/"}
-        isActive={activePage === 0}
-        setCurrentPage={setActivePage}
-        pageNumber={0}
-      >
-        Homepage
-      </NavItem>
-      <NavItem
-        href="/running"
-        isActive={activePage === 1}
-        setCurrentPage={setActivePage}
-        pageNumber={1}
-      >
-        Running
-      </NavItem>
-      <NavItem
-        href="/skiing"
-        isActive={activePage === 2}
-        setCurrentPage={setActivePage}
-        pageNumber={2}
-      >
-        Skiing
-      </NavItem>
-      <ToolsMenu />
+      <div className="flex items-center flex-grow gap-4">
+        <NavItem
+          href={"/"}
+          isActive={activePage === 0}
+          setCurrentPage={setActivePage}
+          pageNumber={0}
+        >
+          Homepage
+        </NavItem>
+        <NavItem
+          href="/running"
+          isActive={activePage === 1}
+          setCurrentPage={setActivePage}
+          pageNumber={1}
+        >
+          Running
+        </NavItem>
+        <NavItem
+          href="/skiing"
+          isActive={activePage === 2}
+          setCurrentPage={setActivePage}
+          pageNumber={2}
+        >
+          Skiing
+        </NavItem>
+      </div>
+      {/* <ToolsMenu /> */}
+
+      <div className="flex items-center ml-auto gap-4">
+        <SyncronizationButton />
+        <AddSingleDialog />
+        <DeleteDialog />
+      </div>
     </nav>
   );
 }
