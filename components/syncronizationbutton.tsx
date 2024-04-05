@@ -2,12 +2,15 @@
 
 import { syncronizeActivities } from "@/queries/activities";
 import { useMutation } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export default function SyncronizationButton() {
+  const [loading, setLoading] = useState(false);
   const mutation = useMutation({
     mutationFn: () => syncronizeActivities(),
     onSuccess: (data: any[]) => {
+      setLoading(false);
       if (data.length === 0) {
         toast.info("No new activities added.");
       } else {
@@ -24,8 +27,15 @@ export default function SyncronizationButton() {
   });
 
   const handleSync = () => {
+    setLoading(true);
     mutation.mutate();
   };
+
+  useEffect(() => {
+    if (loading) {
+      toast.info("Syncronizing activities...");
+    }
+  }, [loading]);
 
   return (
     <div
