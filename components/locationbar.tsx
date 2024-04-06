@@ -4,9 +4,10 @@ import { Skeleton } from "./ui/skeleton";
 
 interface IProps {
   loading: boolean;
+  smallScreen?: boolean;
 }
 
-export default function Locationbar({ loading }: IProps) {
+export default function Locationbar({ loading, smallScreen }: IProps) {
   const SkeletonButtons = () => {
     return (
       <div className="flex justify-between">
@@ -41,10 +42,34 @@ export default function Locationbar({ loading }: IProps) {
     );
   };
 
+  if (smallScreen) {
+    return (
+      <div>
+        {loading ? (
+          // <SkeletonButtons />
+          <ScrollArea>
+            <LocationButtons />
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        ) : (
+          //TODO finne ut hvordan man får den sidelengs
+          <ScrollArea>
+            <LocationButtons />
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="mt-2 w-[50%]">
       {loading ? (
-        <SkeletonButtons />
+        // <SkeletonButtons />
+        <ScrollArea>
+          <LocationButtons />
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
       ) : (
         //TODO finne ut hvordan man får den sidelengs
         <ScrollArea>
