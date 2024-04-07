@@ -4,17 +4,17 @@ import { Skeleton } from "./ui/skeleton";
 
 interface IProps {
   loading: boolean;
+  smallScreen?: boolean;
 }
 
-export default function Locationbar({ loading }: IProps) {
+export default function Locationbar({ loading, smallScreen }: IProps) {
   const SkeletonButtons = () => {
     return (
-      <div className="flex justify-between">
-        <Skeleton className="h-9 rounded-md px-3 w-24" />
-        <Skeleton className="h-9 rounded-md px-3 w-24" />
-        <Skeleton className="h-9 rounded-md px-3 w-24" />
-        <Skeleton className="h-9 rounded-md px-3 w-24" />
-        <Skeleton className="h-9 rounded-md px-3 w-24" />
+      <div className="flex gap-x-1">
+        <Skeleton className="h-9 rounded-md px-3 w-[150px]" />
+        <Skeleton className="h-9 rounded-md px-3 w-[150px]" />
+        <Skeleton className="h-9 rounded-md px-3 w-[150px]" />
+        <Skeleton className="h-9 rounded-md px-3 w-[150px]" />
       </div>
     );
   };
@@ -41,10 +41,33 @@ export default function Locationbar({ loading }: IProps) {
     );
   };
 
+  if (smallScreen) {
+    return (
+      <div>
+        {loading ? (
+          <ScrollArea>
+            <SkeletonButtons />
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        ) : (
+          //TODO finne ut hvordan man får den sidelengs
+          <ScrollArea>
+            <LocationButtons />
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="mt-2 w-[50%]">
       {loading ? (
-        <SkeletonButtons />
+        // <SkeletonButtons />
+        <ScrollArea>
+          <SkeletonButtons />
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
       ) : (
         //TODO finne ut hvordan man får den sidelengs
         <ScrollArea>
