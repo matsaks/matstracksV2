@@ -2,7 +2,7 @@
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
-import React, { useState } from "react";
+import React from "react";
 
 import DeleteDialog from "./deletedialog";
 import SyncronizationButton from "./syncronizationbutton";
@@ -10,12 +10,13 @@ import AddSingleDialog from "./addsingledialog";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Button } from "./ui/button";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import { usePathname } from "next/navigation";
 
 export function MainNav({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
-  const [activePage, setActivePage] = useState(0);
+  const pathname = usePathname();
 
   return (
     <nav
@@ -26,28 +27,13 @@ export function MainNav({
       {...props}
     >
       <div className="flex items-center flex-grow gap-4">
-        <NavItem
-          href={"/"}
-          isActive={activePage === 0}
-          setCurrentPage={setActivePage}
-          pageNumber={0}
-        >
+        <NavItem href={"/"} isActive={pathname === "/"}>
           Homepage
         </NavItem>
-        <NavItem
-          href="/running"
-          isActive={activePage === 1}
-          setCurrentPage={setActivePage}
-          pageNumber={1}
-        >
+        <NavItem href="/running" isActive={pathname === "/running"}>
           Running
         </NavItem>
-        <NavItem
-          href="/skiing"
-          isActive={activePage === 2}
-          setCurrentPage={setActivePage}
-          pageNumber={2}
-        >
+        <NavItem href="/skiing" isActive={pathname === "/skiing"}>
           Skiing
         </NavItem>
       </div>
@@ -81,27 +67,18 @@ export function MainNav({
 interface NavItemProps {
   href: string;
   isActive: boolean;
-  setCurrentPage: (page: number) => void;
   children: React.ReactNode;
-  pageNumber: number;
 }
 
-function NavItem({
-  isActive,
-  href,
-  children,
-  setCurrentPage,
-  pageNumber,
-}: NavItemProps) {
+const NavItem = ({ isActive, href, children }: NavItemProps) => {
   return (
     <Link
       href={href}
       className={`text-m font-medium ${
         isActive ? "text-primary" : "text-muted-foreground"
       } transition-colors hover:text-primary`}
-      onClick={() => setCurrentPage(pageNumber)}
     >
       {children}
     </Link>
   );
-}
+};
