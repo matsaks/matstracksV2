@@ -10,12 +10,11 @@ interface IProps {
 export default function Locationbar({ loading, smallScreen }: IProps) {
   const SkeletonButtons = () => {
     return (
-      <div className="flex justify-between">
-        <Skeleton className="h-9 rounded-md px-3 w-24" />
-        <Skeleton className="h-9 rounded-md px-3 w-24" />
-        <Skeleton className="h-9 rounded-md px-3 w-24" />
-        <Skeleton className="h-9 rounded-md px-3 w-24" />
-        <Skeleton className="h-9 rounded-md px-3 w-24" />
+      <div className="flex gap-x-1">
+        <Skeleton className="h-9 rounded-md px-3 w-[150px]" />
+        <Skeleton className="h-9 rounded-md px-3 w-[150px]" />
+        <Skeleton className="h-9 rounded-md px-3 w-[150px]" />
+        <Skeleton className="h-9 rounded-md px-3 w-[150px]" />
       </div>
     );
   };
@@ -46,9 +45,8 @@ export default function Locationbar({ loading, smallScreen }: IProps) {
     return (
       <div>
         {loading ? (
-          // <SkeletonButtons />
           <ScrollArea>
-            <LocationButtons />
+            <SkeletonButtons />
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
         ) : (
@@ -67,7 +65,7 @@ export default function Locationbar({ loading, smallScreen }: IProps) {
       {loading ? (
         // <SkeletonButtons />
         <ScrollArea>
-          <LocationButtons />
+          <SkeletonButtons />
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       ) : (
