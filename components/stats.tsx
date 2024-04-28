@@ -52,10 +52,10 @@ export default function Stats(props: IProps) {
             info: "Snittfart per løpetur (flatt)",
             stat: getAveragePaceRuns(props.activities),
           },
-          {
-            info: "Snitt antall kilometer terreng",
-            stat: getAverageKmTrail(props.activities) + " km",
-          },
+          // {
+          //   info: "Snitt antall kilometer terreng",
+          //   stat: getAverageKmTrail(props.activities) + " km",
+          // },
         ]
       : [
           {
@@ -109,7 +109,9 @@ export default function Stats(props: IProps) {
 
   const StatsContainer = ({ direction = "horizontal" }) => {
     return (
-      <ScrollArea className={direction === "horizontal" ? "" : "h-[75vh]"}>
+      <ScrollArea
+        className={`rounded-md ${direction === "horizontal" ? "" : "h-[75vh]"}`}
+      >
         <CardBlock direction={direction} />
         {direction === "horizontal" && <ScrollBar orientation="horizontal" />}
       </ScrollArea>
@@ -140,7 +142,9 @@ export default function Stats(props: IProps) {
 
   const SkeletonContainer = ({ direction = "horizontal", count = 9 }) => {
     return (
-      <ScrollArea className={direction === "horizontal" ? "" : "h-[75vh]"}>
+      <ScrollArea
+        className={`rounded-md ${direction === "horizontal" ? "" : "h-[75vh]"}`}
+      >
         <SkeletonBlock direction={direction} count={count} />
         {direction === "horizontal" && <ScrollBar orientation="horizontal" />}
       </ScrollArea>
