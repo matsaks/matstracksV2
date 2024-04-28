@@ -28,7 +28,7 @@ export function MainNav({
     >
       <div className="flex items-center flex-grow gap-4">
         <NavItem href={"/"} isActive={pathname === "/"}>
-          Homepage
+          Heatmap
         </NavItem>
         <NavItem href="/running" isActive={pathname === "/running"}>
           Running

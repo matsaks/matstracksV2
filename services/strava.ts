@@ -2,28 +2,6 @@ import axios from "axios";
 
 const auth_link = "https://www.strava.com/oauth/token";
 
-// interface refreshTokenMutationProps {
-//     client_id: string;
-//     client_secret: string;
-//     refresh_token: string;
-// }
-
-// const refreshTokenMutation = async ({
-//     client_id,
-//     client_secret,
-//     refresh_token,
-// }: refreshTokenMutationProps) => {
-//     const { data } = await axios.post(auth_link, {
-//         client_id,
-//         client_secret,
-//         refresh_token,
-//         grant_type: "refresh_token",
-//     });
-//     return data;
-// }
-
-// export default refreshTokenMutation;
-
 export async function getAccestoken() {
   const res = await axios.post(auth_link, {
     client_id: process.env.NEXT_PUBLIC_CLIENT_ID,

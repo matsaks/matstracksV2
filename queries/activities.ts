@@ -8,7 +8,6 @@ import {
 import { getAccestoken, getTenActivities } from "@/services/strava";
 import { ActivityType, IActivity } from "@/types/activity";
 import { useQuery } from "@tanstack/react-query";
-import { get } from "http";
 
 export const useActivitiesData = (type: string) => {
   return useQuery<ActivityType[] | null>({

@@ -1,9 +1,10 @@
 "use client";
 import { decodePolyline } from "@/functions/decodePolyline";
-import { useActivitiesData } from "@/queries/activities";
 import { ActivityType } from "@/types/activity";
-import ReactMapGL, { Layer, NavigationControl, Source } from "react-map-gl";
 import { Skeleton } from "./ui/skeleton";
+import { useEffect, useRef, useState } from "react";
+import mapboxgl, { LngLatLike, Map } from "mapbox-gl";
+import { init } from "next/dist/compiled/webpack/webpack";
 
 enum Colorcodes {
   "BackcountrySki" = "#0B89EC",
@@ -13,94 +14,79 @@ enum Colorcodes {
   "Kitesurf" = "#1BEBD8",
   "Run" = "#EC890B",
   "Hike" = "#EC890B",
+  "Walk" = "#EC890B",
   "TrailRun" = "#EC890B",
 }
 
 interface IProps {
-  //type?: string;
   activities: ActivityType[];
-  loading: boolean;
+  center: LngLatLike;
+  zoom?: number;
 }
 
-export default function Map(props: IProps) {
-  const viewport = {
-    latitude: 63.43049,
-    longitude: 10.39506,
-    zoom: 11,
-  };
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN as string;
 
-  if (props.loading)
-    return <Skeleton className="w-[100%] h-[100%] rounded-xl" />;
+export default function ActivityMap({ activities, zoom, center }: IProps) {
+  const ref = useRef<HTMLDivElement>(null);
 
-  //const { data, isLoading, isError } = useActivitiesData(type || "");
-  //const { data } = useActivitiesData(type || "");
+  const [map, setMap] = useState<Map | null>(null);
 
-  //if (isLoading) return <Skeleton className="w-[100%] h-[100%] rounded-xl" />;
-  //return <Skeleton className="w-[100%] h-[100%] rounded-xl" />;
+  const intialZoom = zoom || 11;
 
-  // if (isLoading) return <p>Loading...</p>;
-  // if (isError) return <p>Error...</p>;
+  useEffect(() => {
+    const _map = new Map({
+      container: "map",
+      style: "mapbox://styles/matsaks/clk09621d00ac01pf9lpj6mj6",
+      center: center,
+      zoom: intialZoom,
+    });
 
-  //const activities: ActivityType[] = data || [];
+    _map.on("load", () => {
+      setMap(_map);
+    });
+  }, []);
 
-  const CreateLine = (activity: ActivityType) => {
-    const coordinates = decodePolyline(activity.summaryPolyline);
-    const colorcode = Colorcodes[activity.sportType as keyof typeof Colorcodes];
-    if (!colorcode) {
-      return;
+  useEffect(() => {
+    if (map) {
+      map.flyTo({ center: center });
     }
-    return (
-      <Source
-        id={activity.id.toString()}
-        type="geojson"
-        data={{
-          type: "Feature",
-          properties: {},
-          geometry: {
-            type: "LineString",
-            coordinates: coordinates,
+  }, [center, map]);
+
+  useEffect(() => {
+    if (map) {
+      activities.forEach((activity) => {
+        if (activity.sportType === "Workout") return;
+        map.addSource(activity.id.toString(), {
+          type: "geojson",
+          data: {
+            type: "Feature",
+            properties: {},
+            geometry: {
+              type: "LineString",
+              coordinates: decodePolyline(activity.summaryPolyline),
+            },
           },
-        }}
-      >
-        <Layer
-          id={activity.id.toString()}
-          type="line"
-          source={activity.id.toString()}
-          layout={{ "line-join": "round", "line-cap": "round" }}
-          paint={{
-            "line-color": colorcode,
+        });
+        map.addLayer({
+          id: activity.id.toString(),
+          type: "line",
+          source: activity.id.toString(),
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
+          },
+          paint: {
+            "line-color":
+              Colorcodes[activity.sportType as keyof typeof Colorcodes],
             "line-width": 5,
             "line-opacity": 0.7,
-          }}
-        ></Layer>
-      </Source>
-    );
-  };
+          },
+        });
+      });
+    }
+  }, [activities, map]);
 
-  return (
-    <ReactMapGL
-      style={{ borderRadius: "10px" }}
-      mapStyle={"mapbox://styles/matsaks/clk09621d00ac01pf9lpj6mj6"}
-      mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
-      initialViewState={viewport}
-    >
-      {props.activities.map((activity) => (
-        <CreateLine
-          key={activity.id}
-          id={activity.id}
-          name={activity.name}
-          distance={activity.distance}
-          movingTime={activity.movingTime}
-          elevHigh={activity.elevHigh}
-          elevLow={activity.elevLow}
-          endLatlng={activity.endLatlng}
-          summaryPolyline={activity.summaryPolyline}
-          sportType={activity.sportType}
-          startDate={activity.startDate}
-          startLatlng={activity.startLatlng}
-          totalElevGained={activity.totalElevGained}
-        />
-      ))}
-    </ReactMapGL>
-  );
+  //if (loading) return <Skeleton className="w-[100%] h-[100%]" />;
+
+  return <div id="map" ref={ref} className="w-[100%] h-[100%] rounded-xl" />;
 }
