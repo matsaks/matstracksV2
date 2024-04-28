@@ -64,7 +64,7 @@ export default function Running() {
         />
         <div className="mt-4">
           <Stats
-            type="run"
+            type="ski"
             activities={activities}
             loading={isLoading}
             direction="horizontal"
