@@ -52,10 +52,10 @@ export default function Stats(props: IProps) {
             info: "Snittfart per løpetur (flatt)",
             stat: getAveragePaceRuns(props.activities),
           },
-          {
-            info: "Snitt antall kilometer terreng",
-            stat: getAverageKmTrail(props.activities) + " km",
-          },
+          // {
+          //   info: "Snitt antall kilometer terreng",
+          //   stat: getAverageKmTrail(props.activities) + " km",
+          // },
         ]
       : [
           {
