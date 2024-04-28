@@ -26,54 +26,23 @@ export default function Running() {
   }
 
   return (
-    <div>
-      <div className="hidden sm:block">
-        <div className="h-[75vh] flex flex-row">
-          <div className="basis-4/5">
-            {isLoading ? (
-              <Skeleton className="w-full h-full" />
-            ) : (
-              <Map activities={activities} center={location} zoom={10} />
-            )}
-          </div>
-          <div className="basis-1/5">
-            <Stats
-              type="ski"
-              activities={activities}
-              loading={isLoading}
-              direction="vertical"
-            />
-          </div>
-        </div>
+    <div className="grid grid-cols-5">
+      <div className="col-span-5 sm:col-span-4 h-[75vh]">
+        {isLoading ? (
+          <Skeleton className="w-full h-full" />
+        ) : (
+          <Map activities={activities} center={location} zoom={10} />
+        )}
+      </div>
+      <div className="col-span-5 my-2 sm:order-last">
         <Locationbar
           loading={isLoading}
-          className="mt-2 w-[50%]"
           updateLocation={updateLocation}
-          activityType="ski"
+          activityType={"heatmap"}
         />
       </div>
-      <div className="sm:hidden">
-        <div className="h-[75vh]">
-          {isLoading ? (
-            <Skeleton className="w-full h-full" />
-          ) : (
-            <Map activities={activities} center={location} zoom={10} />
-          )}
-        </div>
-        <Locationbar
-          loading={isLoading}
-          className="mt-2 w-[100%]"
-          updateLocation={updateLocation}
-          activityType="ski"
-        />
-        <div className="mt-4">
-          <Stats
-            type="ski"
-            activities={activities}
-            loading={isLoading}
-            direction="horizontal"
-          />
-        </div>
+      <div className="col-span-5 sm:col-span-1">
+        <Stats type={"ski"} activities={activities} loading={isLoading} />
       </div>
     </div>
   );

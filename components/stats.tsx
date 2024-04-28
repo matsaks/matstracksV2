@@ -17,40 +17,37 @@ import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import { ActivityType } from "@/types/activity";
 import { Skeleton } from "./ui/skeleton";
 
-type Direction = "vertical" | "horizontal";
-
 type IProps = {
   type: string;
   activities: ActivityType[];
   loading: boolean;
-  direction: Direction;
 };
 
-export default function Stats(props: IProps) {
+export default function Stats({ type, activities, loading }: IProps) {
   const stats =
-    props.type === "run"
+    type === "run"
       ? [
           {
             info: "Antall løpeturer i år",
-            stat: getNumberOfRunsThisYear(props.activities),
+            stat: getNumberOfRunsThisYear(activities),
           },
           {
             info: "Antall kilometer i år",
-            stat: getTotalKmThisYear(props.activities).toFixed(2) + " km",
+            stat: getTotalKmThisYear(activities).toFixed(2) + " km",
           },
           {
             info: "Antall timer løpt i år",
-            stat: `${getDurationsThisYear(props.activities).hours}:${
-              getDurationsThisYear(props.activities).minutes
+            stat: `${getDurationsThisYear(activities).hours}:${
+              getDurationsThisYear(activities).minutes
             }`,
           },
           {
             info: "Antall kilometer i snitt per løpetur (flatt)",
-            stat: getAverageKm(props.activities) + " km",
+            stat: getAverageKm(activities) + " km",
           },
           {
             info: "Snittfart per løpetur (flatt)",
-            stat: getAveragePaceRuns(props.activities),
+            stat: getAveragePaceRuns(activities),
           },
           // {
           //   info: "Snitt antall kilometer terreng",
@@ -60,104 +57,72 @@ export default function Stats(props: IProps) {
       : [
           {
             info: "Antall toppturer i år",
-            stat: getNumberOfBC(props.activities),
+            stat: getNumberOfBC(activities),
           },
           {
             info: "Antall langrennsturer i år",
-            stat: getNumberOfNordic(props.activities),
+            stat: getNumberOfNordic(activities),
           },
           {
             info: "Antall høydemeter for sesongen (topptur)",
-            stat: totalElevation(props.activities) + " m",
+            stat: totalElevation(activities) + " m",
           },
           {
             info: "Snitt høydemeter (topptur)",
-            stat: averageElevation(props.activities) + " m",
+            stat: averageElevation(activities) + " m",
           },
           {
             info: "Antall kilometer langrenn",
-            stat: getTotalKmNordic(props.activities).toFixed(1) + " km",
+            stat: getTotalKmNordic(activities).toFixed(1) + " km",
           },
           {
             info: "Gjennomsnittsfart langrenn",
-            stat: averageSpeedNordic(props.activities) + " km/h",
+            stat: averageSpeedNordic(activities) + " km/h",
           },
         ];
 
-  const CardBlock = ({ direction = "horizontal" }) => {
-    const isHorizontal = direction === "horizontal";
-    const statsClassName = "w-[250px] h-[100px] rounded-xl  ml-1 mb-1";
-
+  const CardBlock = () => {
     const cardBlocks = stats.map((item, index) => (
       <Card
         key={index}
-        className={
-          isHorizontal
-            ? statsClassName
-            : "w-full h-[100px] rounded-xl ml-1 mb-1"
-        }
+        className="w-[250px] min-h-[100px] rounded-xl ml-1 mb-1 sm:w-full"
       >
         <CardDescription className="m-2">{item.info}</CardDescription>
         <CardTitle className="m-2">{item.stat}</CardTitle>
       </Card>
     ));
 
-    return (
-      <div className={isHorizontal ? "flex flex-row" : ""}>{cardBlocks}</div>
-    );
+    return <div className="flex flex-row sm:flex-col">{cardBlocks}</div>;
   };
 
-  const StatsContainer = ({ direction = "horizontal" }) => {
+  const StatsContainer = () => {
     return (
-      <ScrollArea
-        className={`rounded-md ${direction === "horizontal" ? "" : "h-[75vh]"}`}
-      >
-        <CardBlock direction={direction} />
-        {direction === "horizontal" && <ScrollBar orientation="horizontal" />}
+      <ScrollArea className="rounded-md sm:h-[75vh]">
+        <CardBlock />
+        <ScrollBar orientation="horizontal" className="sm:hidden" />
       </ScrollArea>
     );
   };
 
-  const SkeletonBlock = ({ direction = "horizontal", count = 9 }) => {
-    const isHorizontal = direction === "horizontal";
-    const skeletonClassName = "w-[250px] h-[100px] rounded-xl  ml-1 mb-1";
-
+  const SkeletonBlock = ({ count = 9 }) => {
     const skeletonBlocks = Array.from({ length: count }, (_, index) => (
       <Skeleton
         key={index}
-        className={
-          isHorizontal
-            ? skeletonClassName
-            : "w-100 h-[100px] rounded-xl ml-1 mb-1"
-        }
+        className="w-[250px] h-[100px] rounded-xl  ml-1 mb-1"
       />
     ));
 
-    return (
-      <div className={isHorizontal ? "flex flex-row" : ""}>
-        {skeletonBlocks}
-      </div>
-    );
+    return <div className="flex flex-row sm:flex-col">{skeletonBlocks}</div>;
   };
 
-  const SkeletonContainer = ({ direction = "horizontal", count = 9 }) => {
+  const SkeletonContainer = ({ count = 9 }) => {
     return (
-      <ScrollArea
-        className={`rounded-md ${direction === "horizontal" ? "" : "h-[75vh]"}`}
-      >
-        <SkeletonBlock direction={direction} count={count} />
-        {direction === "horizontal" && <ScrollBar orientation="horizontal" />}
+      <ScrollArea className="rounded-md sm:h-[75vh]">
+        <SkeletonBlock count={count} />
+        <ScrollBar orientation="horizontal" className="sm:hidden" />
       </ScrollArea>
     );
   };
 
-  return (
-    <div>
-      {props.loading ? (
-        <SkeletonContainer direction={props.direction} />
-      ) : (
-        <StatsContainer direction={props.direction} />
-      )}
-    </div>
-  );
+  return <div>{loading ? <SkeletonContainer /> : <StatsContainer />}</div>;
 }
