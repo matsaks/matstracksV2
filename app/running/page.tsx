@@ -19,8 +19,6 @@ export default function Running() {
     toast.error("An error occurred while fetching activities.");
   }
 
-  //const activities: ActivityType[] = [];
-
   const updateLocation = (location: LngLatLike) => {
     setLocation(location);
   };
@@ -54,7 +52,11 @@ export default function Running() {
       </div>
       <div className="sm:hidden">
         <div className="h-[75vh]">
-          <Map activities={activities} center={location} />
+          {isLoading ? (
+            <Skeleton className="w-full h-full" />
+          ) : (
+            <Map activities={activities} center={location} />
+          )}
         </div>
         <Locationbar
           loading={false}

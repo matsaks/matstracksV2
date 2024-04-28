@@ -54,7 +54,11 @@ export default function Running() {
       </div>
       <div className="sm:hidden">
         <div className="h-[75vh]">
-          <Map activities={activities} zoom={10} center={location} />
+          {isLoading ? (
+            <Skeleton className="w-full h-full" />
+          ) : (
+            <Map activities={activities} center={location} zoom={10} />
+          )}
         </div>
         <Locationbar
           loading={isLoading}
