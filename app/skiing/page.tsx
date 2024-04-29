@@ -38,7 +38,7 @@ export default function Running() {
         <Locationbar
           loading={isLoading}
           updateLocation={updateLocation}
-          activityType={"heatmap"}
+          activityType={"ski"}
         />
       </div>
       <div className="col-span-5 sm:col-span-1">
