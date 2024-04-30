@@ -27,7 +27,6 @@ interface IProps {
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN as string;
 
 export default function ActivityMap({ activities, zoom, center }: IProps) {
-  //const [bounds, setBounds] = useState<LngLatBounds>();
   const [nw, setNw] = useState<number[]>();
   const [se, setSe] = useState<number[]>();
 
