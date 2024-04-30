@@ -5,6 +5,7 @@ import { MainNav } from "@/components/main-nav";
 import "mapbox-gl/dist/mapbox-gl.css";
 import Providers from "./providers";
 import { Toaster } from "@/components/ui/sonner";
+import Footer from "@/components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ export default function RootLayout({
         <Providers>
           <MainNav />
           {children}
+          <Footer />
         </Providers>
         <Toaster richColors />
       </body>
