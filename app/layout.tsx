@@ -25,7 +25,7 @@ export default function RootLayout({
         <Providers>
           <MainNav />
           {children}
-          <Footer />
+          {/* <Footer /> */}
         </Providers>
         <Toaster richColors />
       </body>
