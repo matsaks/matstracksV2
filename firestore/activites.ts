@@ -1,5 +1,5 @@
-import { db } from "@/services/firebase";
-import { ActivityType, IActivity } from "@/types/activity";
+import { db } from '@/services/firebase'
+import { ActivityType, IActivity } from '@/types/activity'
 import {
   addDoc,
   collection,
@@ -10,39 +10,39 @@ import {
   orderBy,
   query,
   where,
-} from "firebase/firestore";
+} from 'firebase/firestore'
 
-export const activitiesCollection = collection(db, "activities");
+export const activitiesCollection = collection(db, 'activities')
 
 export const getAcitivites = async (
   type: string
 ): Promise<ActivityType[] | null> => {
-  let q = query(activitiesCollection);
-  if (type === "run") {
+  let q = query(activitiesCollection)
+  if (type === 'run') {
     q = query(
       activitiesCollection,
       or(
-        where("sportType", "==", "Run"),
-        where("sportType", "==", "TrailRun"),
-        where("sportType", "==", "Hike")
+        where('sportType', '==', 'Run'),
+        where('sportType', '==', 'TrailRun'),
+        where('sportType', '==', 'Hike')
       )
-    );
+    )
   }
-  if (type === "ski") {
+  if (type === 'ski') {
     q = query(
       activitiesCollection,
       or(
-        where("sportType", "==", "BackcountrySki"),
-        where("sportType", "==", "NordicSki")
+        where('sportType', '==', 'BackcountrySki'),
+        where('sportType', '==', 'NordicSki')
       )
-    );
+    )
   }
 
-  const snapshot = await getDocs(q);
+  const snapshot = await getDocs(q)
   if (snapshot.empty) {
-    return null;
+    return null
   }
-  const activities: ActivityType[] = [];
+  const activities: ActivityType[] = []
 
   snapshot.docs.map((doc) => {
     const newActivity: ActivityType = {
@@ -58,38 +58,38 @@ export const getAcitivites = async (
       startDate: doc.data().startDate,
       startLatlng: doc.data().startLatlng,
       totalElevGained: doc.data().totalElevGained,
-    };
-    activities.push(newActivity);
-  });
-  return activities;
-};
+    }
+    activities.push(newActivity)
+  })
+  return activities
+}
 
 export const getNewestActivity = async () => {
-  const q = query(activitiesCollection, orderBy("startDate", "desc"), limit(1));
-  const snapshot = await getDocs(q);
-  const startDateString = snapshot.docs[0].data().startDate;
-  const startDate = new Date(startDateString);
-  return startDate.getTime();
-};
+  const q = query(activitiesCollection, orderBy('startDate', 'desc'), limit(1))
+  const snapshot = await getDocs(q)
+  const startDateString = snapshot.docs[0].data().startDate
+  const startDate = new Date(startDateString)
+  return startDate.getTime()
+}
 
 export const addActivities = async (activities: IActivity[]) => {
   activities.map((activity: IActivity) => {
-    addDoc(collection(db, `activities`), { ...activity });
-  });
-};
+    addDoc(collection(db, `activities`), { ...activity })
+  })
+}
 
 export const deleteActivityFromDatabase = async (activityID: number) => {
-  console.log("Deleting activity with id: ", activityID);
+  console.log('Deleting activity with id: ', activityID)
   const q = query(
     activitiesCollection,
-    where("id", "==", parseInt(activityID.toString()))
-  );
-  const snapshot = await getDocs(q);
+    where('id', '==', parseInt(activityID.toString()))
+  )
+  const snapshot = await getDocs(q)
 
   snapshot.docs.map((doc) => {
-    deleteDoc(doc.ref);
-  });
-};
+    deleteDoc(doc.ref)
+  })
+}
 
 export const addSingleActivityToDatabase = async (
   access_token: string,
@@ -97,8 +97,8 @@ export const addSingleActivityToDatabase = async (
 ) => {
   const res = await fetch(
     `https://www.strava.com/api/v3/activities/${activityID}?access_token=${access_token}`
-  );
-  const data = await res.json();
+  )
+  const data = await res.json()
   const newActivity: IActivity = {
     id: data.id,
     name: data.name,
@@ -112,6 +112,6 @@ export const addSingleActivityToDatabase = async (
     startDate: data.start_date,
     startLatlng: data.start_latlng,
     totalElevGained: data.total_elevation_gain,
-  };
-  addDoc(collection(db, `activities`), { ...newActivity });
-};
+  }
+  addDoc(collection(db, `activities`), { ...newActivity })
+}

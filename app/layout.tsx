@@ -1,23 +1,23 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { MainNav } from "@/components/main-nav";
-import "mapbox-gl/dist/mapbox-gl.css";
-import Providers from "./providers";
-import { Toaster } from "@/components/ui/sonner";
-import Footer from "@/components/footer";
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import { MainNav } from '@/components/main-nav'
+import 'mapbox-gl/dist/mapbox-gl.css'
+import Providers from './providers'
+import { Toaster } from '@/components/ui/sonner'
+import Footer from '@/components/footer'
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "MatsTracks",
-  description: "My running and skiing tracks.",
-};
+  title: 'MatsTracks',
+  description: 'My running and skiing tracks.',
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="en">
@@ -30,5 +30,5 @@ export default function RootLayout({
         <Toaster richColors />
       </body>
     </html>
-  );
+  )
 }

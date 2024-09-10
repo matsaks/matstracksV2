@@ -11,42 +11,42 @@ import {
   getTotalKmNordic,
   getTotalKmThisYear,
   totalElevation,
-} from "@/functions/statcalculations";
-import { Card, CardDescription, CardTitle } from "./ui/card";
-import { ScrollArea, ScrollBar } from "./ui/scroll-area";
-import { ActivityType } from "@/types/activity";
-import { Skeleton } from "./ui/skeleton";
+} from '@/functions/statcalculations'
+import { Card, CardDescription, CardTitle } from './ui/card'
+import { ScrollArea, ScrollBar } from './ui/scroll-area'
+import { ActivityType } from '@/types/activity'
+import { Skeleton } from './ui/skeleton'
 
 type IProps = {
-  type: string;
-  activities: ActivityType[];
-  loading: boolean;
-};
+  type: string
+  activities: ActivityType[]
+  loading: boolean
+}
 
 export default function Stats({ type, activities, loading }: IProps) {
   const stats =
-    type === "run"
+    type === 'run'
       ? [
           {
-            info: "Antall løpeturer i år",
+            info: 'Antall løpeturer i år',
             stat: getNumberOfRunsThisYear(activities),
           },
           {
-            info: "Antall kilometer i år",
-            stat: getTotalKmThisYear(activities).toFixed(2) + " km",
+            info: 'Antall kilometer i år',
+            stat: getTotalKmThisYear(activities).toFixed(2) + ' km',
           },
           {
-            info: "Antall timer løpt i år",
+            info: 'Antall timer løpt i år',
             stat: `${getDurationsThisYear(activities).hours}:${
               getDurationsThisYear(activities).minutes
             }`,
           },
           {
-            info: "Antall kilometer i snitt per løpetur (flatt)",
-            stat: getAverageKm(activities) + " km",
+            info: 'Antall kilometer i snitt per løpetur (flatt)',
+            stat: getAverageKm(activities) + ' km',
           },
           {
-            info: "Snittfart per løpetur (flatt)",
+            info: 'Snittfart per løpetur (flatt)',
             stat: getAveragePaceRuns(activities),
           },
           // {
@@ -56,30 +56,30 @@ export default function Stats({ type, activities, loading }: IProps) {
         ]
       : [
           {
-            info: "Antall toppturer i år",
+            info: 'Antall toppturer i år',
             stat: getNumberOfBC(activities),
           },
           {
-            info: "Antall langrennsturer i år",
+            info: 'Antall langrennsturer i år',
             stat: getNumberOfNordic(activities),
           },
           {
-            info: "Antall høydemeter for sesongen (topptur)",
-            stat: totalElevation(activities) + " m",
+            info: 'Antall høydemeter for sesongen (topptur)',
+            stat: totalElevation(activities) + ' m',
           },
           {
-            info: "Snitt høydemeter (topptur)",
-            stat: averageElevation(activities) + " m",
+            info: 'Snitt høydemeter (topptur)',
+            stat: averageElevation(activities) + ' m',
           },
           {
-            info: "Antall kilometer langrenn",
-            stat: getTotalKmNordic(activities).toFixed(1) + " km",
+            info: 'Antall kilometer langrenn',
+            stat: getTotalKmNordic(activities).toFixed(1) + ' km',
           },
           {
-            info: "Gjennomsnittsfart langrenn",
-            stat: averageSpeedNordic(activities) + " km/h",
+            info: 'Gjennomsnittsfart langrenn',
+            stat: averageSpeedNordic(activities) + ' km/h',
           },
-        ];
+        ]
 
   const CardBlock = () => {
     const cardBlocks = stats.map((item, index) => (
@@ -90,10 +90,10 @@ export default function Stats({ type, activities, loading }: IProps) {
         <CardDescription className="m-2">{item.info}</CardDescription>
         <CardTitle className="m-2">{item.stat}</CardTitle>
       </Card>
-    ));
+    ))
 
-    return <div className="flex flex-row sm:flex-col">{cardBlocks}</div>;
-  };
+    return <div className="flex flex-row sm:flex-col">{cardBlocks}</div>
+  }
 
   const StatsContainer = () => {
     return (
@@ -101,8 +101,8 @@ export default function Stats({ type, activities, loading }: IProps) {
         <CardBlock />
         <ScrollBar orientation="horizontal" className="sm:hidden" />
       </ScrollArea>
-    );
-  };
+    )
+  }
 
   const SkeletonBlock = ({ count = 9 }) => {
     const skeletonBlocks = Array.from({ length: count }, (_, index) => (
@@ -110,10 +110,10 @@ export default function Stats({ type, activities, loading }: IProps) {
         key={index}
         className="w-[250px] h-[100px] rounded-xl  ml-1 mb-1"
       />
-    ));
+    ))
 
-    return <div className="flex flex-row sm:flex-col">{skeletonBlocks}</div>;
-  };
+    return <div className="flex flex-row sm:flex-col">{skeletonBlocks}</div>
+  }
 
   const SkeletonContainer = ({ count = 9 }) => {
     return (
@@ -121,8 +121,8 @@ export default function Stats({ type, activities, loading }: IProps) {
         <SkeletonBlock count={count} />
         <ScrollBar orientation="horizontal" className="sm:hidden" />
       </ScrollArea>
-    );
-  };
+    )
+  }
 
-  return <div>{loading ? <SkeletonContainer /> : <StatsContainer />}</div>;
+  return <div>{loading ? <SkeletonContainer /> : <StatsContainer />}</div>
 }

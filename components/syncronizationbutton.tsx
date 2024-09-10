@@ -1,48 +1,49 @@
-"use client";
+'use client'
 
-import { syncronizeActivities } from "@/queries/activities";
-import { useMutation } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { syncronizeActivities } from '@/queries/activities'
+import { useMutation } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
+import { FaSync } from 'react-icons/fa'
 
 export default function SyncronizationButton() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
   const mutation = useMutation({
     mutationFn: () => syncronizeActivities(),
     onSuccess: (data: any[]) => {
-      setLoading(false);
+      setLoading(false)
       if (data.length === 0) {
-        toast.info("No new activities added.");
+        toast.info('No new activities added.')
       } else {
         toast.success(
           `Syncronized. ${data.length} activities saved to the database: ${data
             .map((activity) => activity.name)
-            .join(", ")}`
-        );
+            .join(', ')}`
+        )
       }
     },
     onError: () => {
-      toast.error("An error occurred while synchronizing activities.");
+      toast.error('An error occurred while synchronizing activities.')
     },
-  });
+  })
 
   const handleSync = () => {
-    setLoading(true);
-    mutation.mutate();
-  };
+    setLoading(true)
+    mutation.mutate()
+  }
 
   useEffect(() => {
     if (loading) {
-      toast.info("Syncronizing activities...");
+      toast.info('Syncronizing activities...')
     }
-  }, [loading]);
+  }, [loading])
 
   return (
-    <div
-      className="text-m font-medium text-muted-foreground transition-colors hover:text-primary cursor-pointer"
+    <FaSync
       onClick={handleSync}
-    >
-      Synkroniser aktiviteter
-    </div>
-  );
+      className={`text-xl text-muted-foreground transition-colors hover:text-primary cursor-pointer ${
+        loading ? 'animate-spin' : ''
+      }`}
+    />
+  )
 }
