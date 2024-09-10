@@ -1,6 +1,6 @@
-import { LucideIcon, Linkedin, LucideProps } from "lucide-react";
+import { LucideIcon, Linkedin, LucideProps } from 'lucide-react'
 
-export type Icon = LucideIcon;
+export type Icon = LucideIcon
 
 export const Icons = {
   linkedIn: Linkedin,
@@ -21,4 +21,4 @@ export const Icons = {
       ></path>
     </svg>
   ),
-};
+}

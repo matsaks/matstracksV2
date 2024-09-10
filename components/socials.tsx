@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { Icons } from "./icons";
+import Link from 'next/link'
+import { Icons } from './icons'
 
 const Socials = () => {
   return (
@@ -22,7 +22,7 @@ const Socials = () => {
         <Icons.linkedIn className="h-5 w-5" />
       </Link>
     </div>
-  );
-};
+  )
+}
 
-export default Socials;
+export default Socials

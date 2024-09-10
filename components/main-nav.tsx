@@ -1,73 +1,90 @@
-"use client";
-import Link from "next/link";
+'use client'
+import Link from 'next/link'
 
-import { cn } from "@/lib/utils";
-import React from "react";
-
-import DeleteDialog from "./deletedialog";
-import SyncronizationButton from "./syncronizationbutton";
-import AddSingleDialog from "./addsingledialog";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
-import { Button } from "./ui/button";
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { usePathname } from "next/navigation";
+import { cn } from '@/lib/utils'
+import React, { useContext } from 'react'
+import SyncronizationButton from './syncronizationbutton'
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from './ui/sheet'
+import { Button } from './ui/button'
+import { usePathname } from 'next/navigation'
+import { FaLocationDot } from 'react-icons/fa6'
+import { LocationContext } from '@/app/providers'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
+import { LngLatLike } from 'mapbox-gl'
 
 export function MainNav({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
-  const pathname = usePathname();
+  const pathname = usePathname()
 
   return (
     <nav
       className={cn(
-        "flex items-center space-x-6 lg:space-x-8 mt-2 mb-4 px-2",
+        'flex items-center space-x-6 lg:space-x-8 mt-2 mb-4 px-2',
         className
       )}
       {...props}
     >
       <div className="flex items-center flex-grow gap-4">
-        <NavItem href={"/"} isActive={pathname === "/"}>
+        <NavItem href={'/'} isActive={pathname === '/'}>
           Heatmap
         </NavItem>
-        <NavItem href="/running" isActive={pathname === "/running"}>
-          Running
+        <NavItem href="/fot" isActive={pathname === '/fot'}>
+          Fot
         </NavItem>
-        <NavItem href="/skiing" isActive={pathname === "/skiing"}>
-          Skiing
+        <NavItem href="/ski" isActive={pathname === '/ski'}>
+          Ski
         </NavItem>
       </div>
+      <div>
+        <div className="flex items-center ml-auto gap-8 mr-4">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <FaLocationDot className="text-xl text-muted-foreground transition-colors hover:text-primary cursor-pointer" />
+              </Button>
+            </SheetTrigger>
 
-      <div className="hidden sm:block">
-        <div className="flex items-center ml-auto gap-4 ">
-          <SyncronizationButton />
-          <AddSingleDialog />
-          <DeleteDialog />
+            <SheetContent
+              side="right"
+              className="w-auto min-w-max pt-10 flex flex-col"
+              aria-describedby="location-description"
+            >
+              <VisuallyHidden id="location-description">
+                List of locations to navigate to
+              </VisuallyHidden>
+              <VisuallyHidden>
+                <SheetTitle>Locations</SheetTitle>
+              </VisuallyHidden>
+              <LocationItem
+                name="Innsbruck"
+                coordinates={[11.39808, 47.2615]}
+              />
+              <LocationItem
+                name="Ålesund"
+                coordinates={[6.327062, 62.463208]}
+              />
+              <LocationItem name="Nordfjord" coordinates={[5.936, 61.761]} />
+              <LocationItem name="Nordmøre" coordinates={[8.858, 62.737]} />
+              <LocationItem
+                name="Trondheim"
+                coordinates={[10.408688753978664, 63.425038501632145]}
+              />
+              <LocationItem name="Bergen" coordinates={[5.322, 60.391]} />
+            </SheetContent>
+            <SyncronizationButton />
+          </Sheet>
         </div>
       </div>
-
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" className="sm:hidden">
-            <HamburgerMenuIcon />
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="right">
-          <div className="flex flex-col items-start gap-4">
-            <SyncronizationButton />
-            <AddSingleDialog />
-            <DeleteDialog />
-          </div>
-        </SheetContent>
-      </Sheet>
     </nav>
-  );
+  )
 }
 
 interface NavItemProps {
-  href: string;
-  isActive: boolean;
-  children: React.ReactNode;
+  href: string
+  isActive: boolean
+  children: React.ReactNode
 }
 
 const NavItem = ({ isActive, href, children }: NavItemProps) => {
@@ -75,10 +92,24 @@ const NavItem = ({ isActive, href, children }: NavItemProps) => {
     <Link
       href={href}
       className={`text-m font-medium ${
-        isActive ? "text-primary" : "text-muted-foreground"
+        isActive ? 'text-primary' : 'text-muted-foreground'
       } transition-colors hover:text-primary`}
     >
       {children}
     </Link>
-  );
-};
+  )
+}
+
+interface LocationItemProps {
+  name: string
+  coordinates: LngLatLike
+}
+
+const LocationItem = ({ name, coordinates }: LocationItemProps) => {
+  const { setLocation } = useContext(LocationContext)
+  return (
+    <Button size={'sm'} onClick={() => setLocation(coordinates)}>
+      {name}
+    </Button>
+  )
+}

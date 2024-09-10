@@ -1,18 +1,18 @@
-import { FieldValues, RegisterOptions, useFormContext } from "react-hook-form";
+import { FieldValues, RegisterOptions, useFormContext } from 'react-hook-form'
 
 type customErrorType = {
-  type: string;
-  message: string;
-};
+  type: string
+  message: string
+}
 
 type InputProps = {
-  type: string;
-  fieldName: string;
-  label: string;
-  placeholder: string;
-  options?: RegisterOptions<FieldValues, string>;
-  customError?: customErrorType[];
-};
+  type: string
+  fieldName: string
+  label: string
+  placeholder: string
+  options?: RegisterOptions<FieldValues, string>
+  customError?: customErrorType[]
+}
 
 const Input = ({
   type,
@@ -24,7 +24,7 @@ const Input = ({
   const {
     register,
     formState: { errors },
-  } = useFormContext();
+  } = useFormContext()
 
   const errorObjects = customError?.map((error) => {
     return (
@@ -34,8 +34,8 @@ const Input = ({
           {error.message}
         </p>
       )
-    );
-  });
+    )
+  })
 
   return (
     <div className="w-full flex flex-col gap-1">
@@ -48,7 +48,7 @@ const Input = ({
       />
       {errorObjects}
     </div>
-  );
-};
+  )
+}
 
-export default Input;
+export default Input

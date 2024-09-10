@@ -1,6 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
-import { FormProvider, useForm } from "react-hook-form";
-import { toast } from "sonner";
+import { useMutation } from '@tanstack/react-query'
+import { FormProvider, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import {
   Dialog,
   DialogContent,
@@ -8,35 +8,35 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
-import Input from "./InputFields/input";
-import { Button } from "./ui/button";
-import { addSingleActivity } from "@/queries/activities";
+} from './ui/dialog'
+import Input from './InputFields/input'
+import { Button } from './ui/button'
+import { addSingleActivity } from '@/queries/activities'
 
 type AddActivityFormField = {
-  id: number;
-};
+  id: number
+}
 
 export default function AddSingleDialog() {
-  const methods = useForm<AddActivityFormField>();
+  const methods = useForm<AddActivityFormField>()
 
   const addSingleActivityMutation = useMutation({
     mutationFn: (data: AddActivityFormField) => {
-      const id = data.id;
-      console.log("Adding activity with id: ", id);
-      return addSingleActivity(id);
+      const id = data.id
+      console.log('Adding activity with id: ', id)
+      return addSingleActivity(id)
     },
-  });
+  })
 
   const handleSubmit = async (data: AddActivityFormField) => {
-    const mutationPromise = addSingleActivityMutation.mutateAsync(data);
+    const mutationPromise = addSingleActivityMutation.mutateAsync(data)
 
     toast.promise(mutationPromise, {
-      loading: "Adding activity...",
-      success: "Activity added",
-      error: "An error occurred while adding activity",
-    });
-  };
+      loading: 'Adding activity...',
+      success: 'Activity added',
+      error: 'An error occurred while adding activity',
+    })
+  }
 
   return (
     <Dialog>
@@ -67,5 +67,5 @@ export default function AddSingleDialog() {
         </DialogHeader>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

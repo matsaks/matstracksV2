@@ -1,7 +1,7 @@
 type LabelProps = {
-  fieldName: string;
-  label: string;
-};
+  fieldName: string
+  label: string
+}
 const Label = ({ fieldName, label }: LabelProps) => {
   return (
     <label
@@ -10,7 +10,7 @@ const Label = ({ fieldName, label }: LabelProps) => {
     >
       {label}
     </label>
-  );
-};
+  )
+}
 
-export default Label;
+export default Label
