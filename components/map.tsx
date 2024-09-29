@@ -36,19 +36,21 @@ export default function ActivityMap({ activities, zoom }: IProps) {
   const intialZoom = zoom || 11
 
   useEffect(() => {
-    const _map = new Map({
-      container: 'map',
-      style: 'mapbox://styles/matsaks/clk09621d00ac01pf9lpj6mj6',
-      center: center,
-      zoom: intialZoom,
-    })
+    if (ref.current && !map) {
+      const _map = new Map({
+        container: ref.current,
+        style: 'mapbox://styles/matsaks/clk09621d00ac01pf9lpj6mj6',
+        center: center,
+        zoom: intialZoom,
+      })
 
-    _map.on('load', () => {
-      setMap(_map)
-      const bounds = _map.getBounds()
-      setNw([bounds.getNorth(), bounds.getWest()])
-      setSe([bounds.getSouth(), bounds.getEast()])
-    })
+      _map.on('load', () => {
+        setMap(_map)
+        const bounds = _map.getBounds()
+        setNw([bounds.getNorth(), bounds.getWest()])
+        setSe([bounds.getSouth(), bounds.getEast()])
+      })
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -126,5 +128,5 @@ export default function ActivityMap({ activities, zoom }: IProps) {
     }
   }, [center, map])
 
-  return <div id="map" ref={ref} className="w-[100%] h-[100%] rounded-xl" />
+  return <div ref={ref} className="w-[100%] h-[100%] rounded-xl" />
 }
