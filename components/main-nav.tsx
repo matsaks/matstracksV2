@@ -65,13 +65,16 @@ export function MainNav({
                 name="Ålesund"
                 coordinates={[6.327062, 62.463208]}
               />
-              <LocationItem name="Nordfjord" coordinates={[5.936, 61.761]} />
-              <LocationItem name="Nordmøre" coordinates={[8.858, 62.737]} />
               <LocationItem
                 name="Trondheim"
-                coordinates={[10.408688753978664, 63.425038501632145]}
+                coordinates={[10.408688, 63.425038501]}
               />
-              <LocationItem name="Bergen" coordinates={[5.322, 60.391]} />
+              <LocationItem
+                name="Hjørundfjorden"
+                coordinates={[10.41, 62.21]}
+              />
+              <LocationItem name="Nordfjord" coordinates={[5.936, 61.761]} />
+              <LocationItem name="Nordmøre" coordinates={[8.97, 62.94]} />
             </SheetContent>
             <SyncronizationButton />
           </Sheet>
