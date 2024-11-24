@@ -10,9 +10,20 @@ function isThisYear(date: string) {
 function isThisSeason(date: string) {
   const d = new Date()
   const currentYear: number = d.getFullYear()
-  const year1 = parseInt(date.slice(0, 4))
+  const currentMonth: number = d.getMonth()
+  const year = parseInt(date.slice(0, 4))
   const month = parseInt(date.slice(5, 7))
-  return currentYear === year1 || (currentYear - 1 === year1 && month > 8)
+
+  const seasonStartYear = currentMonth >= 9 ? currentYear : currentYear - 1
+  const seasonEndYear = seasonStartYear + 1
+
+  if (
+    (year === seasonStartYear && month >= 9) ||
+    (year === seasonEndYear && month < 9)
+  ) {
+    return true
+  }
+  return false
 }
 
 export function getTotalKmThisYear(activities: ActivityType[]) {
@@ -99,16 +110,6 @@ export function getAverageKmTrail(activities: ActivityType[]) {
   return (totalKm / numberOfRuns).toFixed(2)
 }
 
-export function getNumberOfBC(activities: ActivityType[]) {
-  let total = 0
-  activities.map((a) => {
-    if (a.sportType === 'BackcountrySki' && isThisSeason(a.startDate)) {
-      total++
-    }
-  })
-  return total
-}
-
 export function getNumberOfNordic(activities: ActivityType[]) {
   let total = 0
   activities.map((a) => {
@@ -154,4 +155,72 @@ export function averageSpeedNordic(activities: ActivityType[]) {
   })
   const totalKm = getTotalKmNordic(activities)
   return (totalKm / (time / 3600)).toFixed(1)
+}
+
+function groupActivitiesByDate(
+  activites: ActivityType[]
+): Map<string, Set<string>> {
+  const dateMap = new Map<string, Set<string>>()
+
+  activites.forEach((a) => {
+    if (
+      (a.sportType === 'BackcountrySki' ||
+        a.sportType === 'NordicSki' ||
+        a.sportType === 'AlpineSki') &&
+      isThisSeason(a.startDate)
+    ) {
+      const date = a.startDate.slice(0, 10)
+      if (!dateMap.has(date)) {
+        dateMap.set(date, new Set<string>())
+      }
+      dateMap.get(date)?.add(a.sportType)
+    }
+  })
+  return dateMap
+}
+
+export function getNumberOfSkidays(activities: ActivityType[]): number {
+  const dateMap = groupActivitiesByDate(activities)
+  return dateMap.size
+}
+
+export function getNumberOfResortDays(activities: ActivityType[]): number {
+  const dateMap = groupActivitiesByDate(activities)
+  let total = 0
+  dateMap.forEach((sports) => {
+    if (
+      (sports.size === 1 && sports.has('AlpineSki')) ||
+      (sports.size === 2 && sports.has('AlpineSki') && sports.has('NordicSki'))
+    ) {
+      total++
+    }
+  })
+  return total
+}
+
+export function getNumberOfBC(activites: ActivityType[]): number {
+  const dateMap = groupActivitiesByDate(activites)
+  let total = 0
+  dateMap.forEach((sports) => {
+    if (
+      (sports.size === 1 && sports.has('BackcountrySki')) ||
+      (sports.size === 2 &&
+        sports.has('BackcountrySki') &&
+        sports.has('NordicSki'))
+    ) {
+      total++
+    }
+  })
+  return total
+}
+
+export function getNumberOfMix(activities: ActivityType[]): number {
+  const dateMap = groupActivitiesByDate(activities)
+  let total = 0
+  dateMap.forEach((sports) => {
+    if (sports.has('BackcountrySki') && sports.has('AlpineSki')) {
+      total++
+    }
+  })
+  return total
 }

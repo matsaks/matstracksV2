@@ -6,8 +6,11 @@ import {
   getAveragePaceRuns,
   getDurationsThisYear,
   getNumberOfBC,
+  getNumberOfMix,
   getNumberOfNordic,
+  getNumberOfResortDays,
   getNumberOfRunsThisYear,
+  getNumberOfSkidays,
   getTotalKmNordic,
   getTotalKmThisYear,
   totalElevation,
@@ -56,8 +59,20 @@ export default function Stats({ type, activities, loading }: IProps) {
         ]
       : [
           {
-            info: 'Antall toppturer i år',
+            info: 'Antall skidager i år',
+            stat: getNumberOfSkidays(activities),
+          },
+          {
+            info: 'Antall toppturdager i år',
             stat: getNumberOfBC(activities),
+          },
+          {
+            info: 'Antall dager i skianlegg',
+            stat: getNumberOfResortDays(activities),
+          },
+          {
+            info: 'Antall dager mix',
+            stat: getNumberOfMix(activities),
           },
           {
             info: 'Antall langrennsturer i år',

@@ -69,10 +69,7 @@ export function MainNav({
                 name="Trondheim"
                 coordinates={[10.408688, 63.425038501]}
               />
-              <LocationItem
-                name="Hjørundfjorden"
-                coordinates={[10.41, 62.21]}
-              />
+              <LocationItem name="Hjørundfjorden" coordinates={[6.29, 62.5]} />
               <LocationItem name="Nordfjord" coordinates={[5.936, 61.761]} />
               <LocationItem name="Nordmøre" coordinates={[8.97, 62.94]} />
             </SheetContent>

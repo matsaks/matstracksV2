@@ -33,7 +33,8 @@ export const getAcitivites = async (
       activitiesCollection,
       or(
         where('sportType', '==', 'BackcountrySki'),
-        where('sportType', '==', 'NordicSki')
+        where('sportType', '==', 'NordicSki'),
+        where('sportType', '==', 'AlpineSki')
       )
     )
   }
