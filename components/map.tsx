@@ -15,6 +15,7 @@ enum Colorcodes {
   'Hike' = '#EC890B',
   'Walk' = '#EC890B',
   'TrailRun' = '#EC890B',
+  'AlpineSki' = '#0B89EC',
 }
 
 interface IProps {
