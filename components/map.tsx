@@ -6,16 +6,21 @@ import mapboxgl, { LngLatLike, Map } from 'mapbox-gl'
 import { LocationContext } from '@/app/providers'
 
 enum Colorcodes {
+  //'BackcountrySki' = '#0B89EC',
   'BackcountrySki' = '#0B89EC',
-  'NordicSki' = '#0B89EC',
+  'NordicSki' = '#086BB8',
+  'AlpineSki' = '#2D9DED',
+  //'AlpineSki' = '#5BB9F5',
+  //'NordicSki' = '#0B89EC',
+  //'AlpineSki' = '#0B89EC',
   'Ride' = '#277348',
   'Kayaking' = '#1BEBD8',
   'Kitesurf' = '#1BEBD8',
   'Run' = '#EC890B',
-  'Hike' = '#EC890B',
+  //'Hike' = '#EC890B',
+  'Hike' = '#FE3223',
   'Walk' = '#EC890B',
   'TrailRun' = '#EC890B',
-  'AlpineSki' = '#0B89EC',
 }
 
 interface IProps {
